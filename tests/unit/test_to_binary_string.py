@@ -1,8 +1,10 @@
+import struct
 import sys
 from pathlib import Path
-import struct
+
 sys.path.append(str(Path(__file__).parent.parent.parent))
 from utils.to_binary_string import to_binary_string, to_lists
+
 
 def test_to_binary_string_basic():
     points = [(0.0, 0.0), (1.0, 0.0), (0.0, 1.0)]

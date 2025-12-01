@@ -1,5 +1,7 @@
 from pytest import fixture
+
 from app import app as flask_app
+
 
 @fixture
 def app():
