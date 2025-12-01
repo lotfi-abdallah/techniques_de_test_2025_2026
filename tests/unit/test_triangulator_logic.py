@@ -1,13 +1,12 @@
 import sys
 from pathlib import Path
 
-sys.path.append(str(Path(__file__).parent.parent))
+sys.path.append(str(Path(__file__).parent.parent.parent))
 
 import pytest
 
-import triangulator
 from tests.helpers.pointsets import triangle, square_ccw, colinear_line, duplicate_points, polygon_convex
-
+import triangulator
 
 def test_empty_points_returns_no_triangles():
     assert triangulator.triangulate([]) == []

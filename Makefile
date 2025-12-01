@@ -5,7 +5,7 @@ help: ## Show this help message
 test:
 	pytest -v tests/
 unit_test: 
-	pytest -v tests/test_unit.py
+	pytest -v tests/unit
 perf_test:
 	pytest -v tests/test_perf.py
 coverage:
