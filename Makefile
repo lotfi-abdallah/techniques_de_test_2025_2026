@@ -1,15 +1,19 @@
 
-help: ## Show this help message
-	@egrep -h '\s##\s' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
-
+.PHONY: test unit_test api_test perf_test coverage lint doc
 test:
-	pytest -v tests/
+	pytest -m "not perf"
 unit_test: 
-	pytest -v tests/unit
+	pytest -m unit
+api_test:
+	pytest -m api
 perf_test:
-	pytest -v tests/test_perf.py
+	pytest -m perf
 coverage:
-	pytest --cov=app tests/
+	coverage run -m pytest
+coverage-report:
+	coverage report -m
+coverage-html:
+	coverage html
 lint:	
 	flake8 --max-line-length=120 .
 doc:
