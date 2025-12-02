@@ -1,15 +1,16 @@
 import sys
 from pathlib import Path
 from unittest.mock import patch
+import pytest
 
 sys.path.append(str(Path(__file__).parent.parent))
 
-
+from tests.configure_tests import app, client
 
 from tests.helpers.pointsets import triangle as make_points
 from utils.to_binary_string import to_binary_string
 
-
+@pytest.mark.api
 def test_triangulation_happy_path(client):
     pts = make_points()
     fake_pointset = to_binary_string(pts, [])
@@ -22,7 +23,7 @@ def test_triangulation_happy_path(client):
     assert response.content_type == 'application/octet-stream'
     assert isinstance(response.data, (bytes, bytearray))
 
-
+@pytest.mark.api
 def test_pointset_not_found_returns_404(client):
     # we expect "not-found" to be an invalid ID for this test
     with patch('app.get_pointset', side_effect=FileNotFoundError):
@@ -34,7 +35,7 @@ def test_pointset_not_found_returns_404(client):
     assert 'error' in data
     assert data['error']['code'] == 'POINTSET_NOT_FOUND'
 
-
+@pytest.mark.api
 def test_malformed_pointset_returns_400(client):
     # return bytes that cannot be parsed
     with patch('app.get_pointset', return_value=b'$$not-a-valid-pointset$$'):
@@ -45,7 +46,7 @@ def test_malformed_pointset_returns_400(client):
     data = response.get_json()
     assert data['error']['code'] == 'INVALID_POINTSET'
 
-
+@pytest.mark.api
 def test_triangulation_failure_returns_500(client):
     pts = make_points()
     fake_pointset = to_binary_string(pts, [])
@@ -63,3 +64,14 @@ def test_triangulation_failure_returns_500(client):
     assert response.content_type == 'application/json'
     data = response.get_json()
     assert data['error']['code'] == 'TRIANGULATION_FAILED'
+
+@pytest.mark.api
+def test_communication_with_pointset_manager_failed_returns_503(client):
+    # Simulate communication failure when trying to get the pointset
+    with patch('app.get_pointset', side_effect=ConnectionError):
+        response = client.get('/triangulation/any-id')
+
+    assert response.status_code == 503
+    assert response.content_type == 'application/json'
+    data = response.get_json()
+    assert data['error']['code'] == 'POINTSET_SERVICE_UNAVAILABLE'

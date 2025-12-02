@@ -17,4 +17,6 @@ def duplicate_points():
 def polygon_convex(n=5, radius=1.0):
     """Generate a convex polygon with n vertices."""
     from math import cos, pi, sin
-    return [(radius * cos(2 * pi * i / n), radius * sin(2 * pi * i / n)) for i in range(n)]
+    return [
+        (radius * cos(2 * pi * i / n), radius * sin(2 * pi * i / n)) for i in range(n)
+        ]

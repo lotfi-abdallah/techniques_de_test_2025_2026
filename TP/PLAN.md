@@ -70,7 +70,7 @@ Ces tests visent à mesurer et valider les performances de l'algorithme de trian
 - **TP 3.1 : Performance de la Triangulation**
 
   - **Description :** Mesurer le temps d'exécution de l'algorithme de triangulation pour un grand nombre de points.
-  - **Scénario :** Exécuter la fonction de triangulation sur des ensembles de 1 000, 10 000, et 50 000 points.
+  - **Scénario :** Exécuter la fonction de triangulation sur un ensemble de points volumineux
   - **Résultat Attendu :** Le temps d'exécution doit rester dans des limites raisonnables (par exemple, moins de quelques secondes) et ne doit pas augmenter de manière exponentielle.
 
 - **TP 3.2 : Performance de la Sérialisation**
