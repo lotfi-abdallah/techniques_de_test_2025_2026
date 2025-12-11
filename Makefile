@@ -15,6 +15,6 @@ coverage-report:
 coverage-html:
 	coverage html
 lint:	
-	flake8 --max-line-length=120 .
+	ruff check
 doc:
 	pdoc -o docs/ .
