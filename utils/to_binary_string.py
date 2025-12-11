@@ -1,14 +1,19 @@
+"""Utility functions.
+
+for converting between point/triangle lists and binary string format.
+"""
 import struct
 
+
 def to_binary_string(points, triangles):
-    """
-    Convert a list of vertices and triangles to the required binary format.
+    """Convert a list of vertices and triangles to the required binary format.
 
     points: list of (x, y)
     triangles: list of (i, j, k)
     """
     # Start with vertex count
-    binary_data = struct.pack('<I', len(points))  # < = little-endian, I = unsigned int (4 bytes)
+    # < = little-endian, I = unsigned int (4 bytes)
+    binary_data = struct.pack('<I', len(points)) 
     
     # Add all vertices (float32 x, float32 y)
     for x, y in points:
@@ -24,12 +29,13 @@ def to_binary_string(points, triangles):
     return binary_data
 
 def to_lists(binary_data):
-    """
-    Convert binary data back to lists of vertices and triangles.
+    """Convert binary data back to lists of vertices and triangles.
 
     Returns (points, triangles)
     points: list of (x, y)
     triangles: list of (i, j, k)
+
+    Raises struct.error if the binary data is malformed.
     """
     offset = 0
     
