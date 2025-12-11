@@ -1,3 +1,4 @@
+"""API-level tests for the Triangulator HTTP endpoint."""
 import sys
 from pathlib import Path
 from unittest.mock import patch
@@ -13,6 +14,7 @@ from utils.to_binary_string import to_binary_string
 
 @pytest.mark.api
 def test_triangulation_happy_path(client):
+    """Test successful triangulation with valid PointSet ID."""
     pts = make_points()
     fake_pointset = to_binary_string(pts, [])
 
@@ -26,6 +28,7 @@ def test_triangulation_happy_path(client):
 
 @pytest.mark.api
 def test_pointset_not_found_returns_404(client):
+    """Test that missing PointSet returns 404 with error JSON."""
     # we expect "not-found" to be an invalid ID for this test
     with patch('app.get_pointset', side_effect=FileNotFoundError):
         response = client.get('/triangulation/not-found')
@@ -38,6 +41,7 @@ def test_pointset_not_found_returns_404(client):
 
 @pytest.mark.api
 def test_malformed_pointset_returns_400(client):
+    """Test that malformed binary returns 400 with error JSON."""
     # return bytes that cannot be parsed
     with patch('app.get_pointset', return_value=b'$$not-a-valid-pointset$$'):
         response = client.get('/triangulation/bad-bytes')
@@ -49,6 +53,7 @@ def test_malformed_pointset_returns_400(client):
 
 @pytest.mark.api
 def test_triangulation_failure_returns_500(client):
+    """Test that triangulation exception returns 500 with error JSON."""
     pts = make_points()
     fake_pointset = to_binary_string(pts, [])
 
@@ -57,9 +62,9 @@ def test_triangulation_failure_returns_500(client):
         pass
 
     # Patch get_pointset to return a valid blob, and triangulator.triangulate to raise
-    with patch('app.get_pointset', return_value=fake_pointset):
-        with patch('triangulator.triangulate', side_effect=Exception('fail')):
-            response = client.get('/triangulation/123')
+    with patch('app.get_pointset', return_value=fake_pointset), \
+         patch('triangulator.triangulate', side_effect=Exception('fail')):
+        response = client.get('/triangulation/123')
 
     assert response.status_code == 500
     assert response.content_type == 'application/json'
@@ -68,6 +73,7 @@ def test_triangulation_failure_returns_500(client):
 
 @pytest.mark.api
 def test_communication_with_pointset_manager_failed_returns_503(client):
+    """Test that PointSetManager connection error returns 503."""
     # Simulate communication failure when trying to get the pointset
     with patch('app.get_pointset', side_effect=ConnectionError):
         response = client.get('/triangulation/any-id')

@@ -13,7 +13,7 @@ Triangle = tuple[int, int, int]
 
 
 class TriangulationError(Exception):
-    pass
+    """Raised when triangulation computation fails."""
 
 
 def _cross(o: Point, a: Point, b: Point) -> float:
@@ -97,4 +97,5 @@ def triangulate(points: list[Point]) -> list[Triangle]:
         raise TriangulationError("Triangulation failed") from exc
 
 def fan_triangulate(n: int) -> list[Triangle]:
+    """Compute fan triangulation from vertex 0 for n points."""
     return [(0, i, i + 1) for i in range(1, n - 1)]

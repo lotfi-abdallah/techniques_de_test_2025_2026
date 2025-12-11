@@ -1,3 +1,8 @@
+"""Performance tests for triangulation and binary serialization.
+
+These tests are marked with @pytest.mark.perf so they can be excluded from
+normal test runs using `pytest -m "not perf"`.
+"""
 import random
 import sys
 import time
@@ -46,7 +51,10 @@ def test_serialization_roundtrip_large():
     start = time.perf_counter()
     pts2, tris2 = to_lists(data)
     to_lists_duration = time.perf_counter() - start
-    print(f"serialize {n} points in {to_binary_string_duration:.3f}s, deserialize in {to_lists_duration:.3f}s")
+    print(
+        f"serialize {n} points in {to_binary_string_duration:.3f}s, "
+        f"deserialize in {to_lists_duration:.3f}s"
+    )
     assert pts2 == points
     assert tris2 == triangles
     assert to_binary_string_duration < 2

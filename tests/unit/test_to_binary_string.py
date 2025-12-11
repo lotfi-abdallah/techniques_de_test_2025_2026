@@ -1,3 +1,4 @@
+"""Unit tests for binary serialization utilities."""
 import struct
 import sys
 from pathlib import Path
@@ -11,6 +12,7 @@ from utils.to_binary_string import to_binary_string, to_lists
 
 @pytest.mark.unit
 def test_to_binary_string_basic():
+    """Test basic serialization of points and triangles."""
     points = [(0.0, 0.0), (1.0, 0.0), (0.0, 1.0), (1.0, 1.0)]
     triangles = [(0, 1, 2), (1, 2, 3)]
 
@@ -27,6 +29,7 @@ def test_to_binary_string_basic():
 
 @pytest.mark.unit
 def test_to_binary_string_empty():
+    """Test serialization of empty pointset."""
     points = []
     triangles = []
 
@@ -36,6 +39,7 @@ def test_to_binary_string_empty():
 
 @pytest.mark.unit
 def test_to_binary_string_non_integer_coords_and_multiple_triangles():
+    """Test serialization with non-integer floats and multiple triangles."""
     points = [(1.5, -2.0), (3.25, 4.75)]
     triangles = [(0, 1, 0), (1, 0, 1)]
 
@@ -51,6 +55,7 @@ def test_to_binary_string_non_integer_coords_and_multiple_triangles():
 
 @pytest.mark.unit
 def test_one_triangle_roundtrip_from_binary_to_list():
+    """Test deserialization roundtrip for a single triangle."""
     points = [(0.0, 0.0), (1.0, 0.0), (0.0, 1.0)]
     triangles = [(0, 1, 2)]
 
@@ -62,6 +67,7 @@ def test_one_triangle_roundtrip_from_binary_to_list():
 
 @pytest.mark.unit
 def test_multiple_triangles_roundtrip_from_binary_to_list():
+    """Test deserialization roundtrip for multiple triangles."""
     points = [(float(i), float((i * 7) % 10)) for i in range(50)]
     triangles = [(i, i + 1, i + 2) for i in range(0, 47)]
     binary = to_binary_string(points, triangles)
