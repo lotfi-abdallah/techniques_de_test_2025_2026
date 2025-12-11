@@ -1,14 +1,15 @@
 import sys
 from pathlib import Path
 from unittest.mock import patch
+
 import pytest
 
 sys.path.append(str(Path(__file__).parent.parent))
 
-from tests.configure_tests import app, client
 
 from tests.helpers.pointsets import triangle as make_points
 from utils.to_binary_string import to_binary_string
+
 
 @pytest.mark.api
 def test_triangulation_happy_path(client):

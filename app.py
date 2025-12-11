@@ -1,4 +1,4 @@
-from flask import Blueprint, Flask, jsonify
+from flask import Flask, jsonify
 
 import triangulator
 from utils.get_pointset import get_pointset

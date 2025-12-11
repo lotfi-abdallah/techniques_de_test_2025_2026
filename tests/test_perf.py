@@ -1,6 +1,6 @@
+import random
 import sys
 import time
-import random
 from pathlib import Path
 
 sys.path.append(str(Path(__file__).parent.parent))

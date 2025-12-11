@@ -4,6 +4,7 @@ from pathlib import Path
 sys.path.append(str(Path(__file__).parent.parent.parent))
 
 import pytest
+
 import triangulator
 from tests.helpers.pointsets import (
     colinear_line,
@@ -12,6 +13,7 @@ from tests.helpers.pointsets import (
     square_ccw,
     triangle,
 )
+
 
 @pytest.mark.unit
 def test_empty_points_returns_no_triangles():

@@ -8,6 +8,7 @@ import pytest
 
 from utils.to_binary_string import to_binary_string, to_lists
 
+
 @pytest.mark.unit
 def test_to_binary_string_basic():
     points = [(0.0, 0.0), (1.0, 0.0), (0.0, 1.0), (1.0, 1.0)]

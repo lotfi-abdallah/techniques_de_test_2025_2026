@@ -6,7 +6,8 @@ sys.path.append(str(Path(__file__).parent.parent.parent))
 
 import pytest
 
-from utils.to_binary_string import to_binary_string, to_lists
+from utils.to_binary_string import to_lists
+
 
 @pytest.mark.unit
 def test_to_lists_truncated_header_raises():

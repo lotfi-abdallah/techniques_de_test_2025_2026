@@ -16,5 +16,7 @@ coverage-html:
 	coverage html
 lint:	
 	ruff check
+lint_fix:
+	ruff check --fix
 doc:
 	pdoc -o docs/ .
