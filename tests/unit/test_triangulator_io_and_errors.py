@@ -22,11 +22,9 @@ def test_to_lists_incomplete_point_data_raises():
 
 @pytest.mark.unit
 def test_to_lists_incomplete_triangle_data_raises():
-    # one valid point, triangle header says 1 triangle but triangle bytes missing
-    points = [(0.0, 0.0)]
-    # craft binary with 1 point
-    binary = to_binary_string(points, [])
-    # append triangle-count but not enough triangle bytes
-    binary += struct.pack('<I', 1)
+    # craft binary manually: 1 point count, point data, 1 triangle count, but no triangle data
+    binary = struct.pack('<I', 1)  # 1 point
+    binary += struct.pack('<ff', 0.0, 0.0)  # point data
+    binary += struct.pack('<I', 1)  # 1 triangle but no triangle data follows
     with pytest.raises((struct.error, Exception)):
         to_lists(binary)

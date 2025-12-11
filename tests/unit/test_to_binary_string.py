@@ -10,8 +10,8 @@ from utils.to_binary_string import to_binary_string, to_lists
 
 @pytest.mark.unit
 def test_to_binary_string_basic():
-    points = [(0.0, 0.0), (1.0, 0.0), (0.0, 1.0)]
-    triangles = [(0, 1, 2)]
+    points = [(0.0, 0.0), (1.0, 0.0), (0.0, 1.0), (1.0, 1.0)]
+    triangles = [(0, 1, 2), (1, 2, 3)]
 
     expected = struct.pack('<I', len(points))
     for x, y in points:
@@ -19,7 +19,7 @@ def test_to_binary_string_basic():
     expected += struct.pack('<I', len(triangles))
     for a, b, c in triangles:
         expected += struct.pack('<III', a, b, c)
-
+    
     result = to_binary_string(points, triangles)
     assert isinstance(result, (bytes, bytearray))
     assert result == expected
